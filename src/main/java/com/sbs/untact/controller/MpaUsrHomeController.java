@@ -18,4 +18,15 @@ public class MpaUsrHomeController {
 	public String showMain2() {
 		return "잘가";
 	}
+	@RequestMapping("/mpaUsr/home/main3")
+	@ResponseBody
+	public int showMain3(int a, int b) {
+		return a + b;
+	}
+	@RequestMapping("/mpaUsr/home/main4")
+	@ResponseBody
+	public int showMain4(int a, int b) {
+		return a - b;
+	}
+	
 }
