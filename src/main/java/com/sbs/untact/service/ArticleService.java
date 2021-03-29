@@ -11,6 +11,12 @@ import com.sbs.untact.dto.ResultData;
 public class ArticleService {
 	@Autowired
 	private ArticleDao articleDao;
+	
+	public ResultData writeArticle(String title, String body) {
+		int id = articleDao.writeArticle(title, body);
+		
+		return new ResultData("S-1", "게시물이 작성되었습니다.", "id", id);
+	}
 
 	public ResultData modifyArticle(int id, String title, String body) {
 		Article article = getArticleById(id);
@@ -34,12 +40,6 @@ public class ArticleService {
 		articleDao.deleteArticleById(id);
 
 		return new ResultData("S-1", id + "번 게시물이 삭제되었습니다.", "id", id);
-	}
-
-	public ResultData writeArticle(String title, String body) {
-		int id = articleDao.writeArticle(title, body);
-		
-		return new ResultData("S-1", "게시물이 작성되었습니다.", "id", id);
 	}
 
 	public Article getArticleById(int id) {

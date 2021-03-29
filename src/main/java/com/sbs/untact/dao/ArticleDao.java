@@ -21,8 +21,21 @@ public class ArticleDao {
 
 	public void makeTestData() {
 		for (int i = 0; i < 3; i++) {
-			writeArticle("제목1", "내용1");
+			writeArticle("Test 제목", "Test 내용");
 		}
+	}
+
+	public int writeArticle(String title, String body) {
+		int id = articleLastId + 1;
+		String regDate = Util.getNowDateStr();
+		String updateDate = Util.getNowDateStr();
+		
+		Article article = new Article(id, regDate, updateDate, title, body);
+		articles.add(article);
+		
+		articleLastId = id;
+		
+		return id;
 	}
 
 	public boolean modifyArticle(int id, String title, String body) {
@@ -39,17 +52,10 @@ public class ArticleDao {
 		return true;
 	}
 
-	public int writeArticle(String title, String body) {
-		int id = articleLastId + 1;
-		String regDate = Util.getNowDateStr();
-		String updateDate = Util.getNowDateStr();
-
-		Article article = new Article(id, regDate, updateDate, title, body);
-		articles.add(article);
-
-		articleLastId = id;
-
-		return id;
+	public void deleteArticleById(int id) {
+		Article article = getArticleById(id);
+		
+		articles.remove(article);
 	}
 
 	public Article getArticleById(int id) {
@@ -60,12 +66,6 @@ public class ArticleDao {
 		}
 
 		return null;
-	}
-
-	public void deleteArticleById(int id) {
-		Article article = getArticleById(id);
-
-		articles.remove(article);
 	}
 }
 
