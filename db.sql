@@ -76,3 +76,5 @@ boardId = 2,
 memberId = 2,
 title = '제목6',
 `body` = '본문6';
+
+SELECT * FROM article;
