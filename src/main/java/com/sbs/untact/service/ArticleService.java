@@ -1,10 +1,13 @@
 package com.sbs.untact.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.sbs.untact.dao.ArticleDao;
 import com.sbs.untact.dto.Article;
+import com.sbs.untact.dto.Board;
 import com.sbs.untact.dto.ResultData;
 
 @Service
@@ -43,7 +46,7 @@ public class ArticleService {
 
 		articleDao.deleteArticleById(id);
 
-		return new ResultData("S-1", id + "번 게시물이 삭제되었습니다.", "id", id);
+		return new ResultData("S-1", id + "번 게시물이 삭제되었습니다.", "id", id, "boardId", article.getBoardId());
 	}
 
 	public ResultData writeArticle(String title, String body) {
@@ -57,5 +60,20 @@ public class ArticleService {
 
 	public Article getArticleById(int id) {
 		return articleDao.getArticleById(id);
+	}
+
+	public Board getBoardById(int id) {
+		return articleDao.getBoardById(id);
+	}
+
+	public int getArticlesTotalCount(int boardId) {
+		return articleDao.getArticlesTotalCount(boardId);
+	}
+
+	public List<Article> getForPrintArticles(int boardId, int itemsCountInAPage, int page) {
+		int limitFrom = (page - 1) * itemsCountInAPage;
+		int limitTake = itemsCountInAPage;
+		
+		return articleDao.getForPrintArticles(boardId, limitFrom, limitTake);
 	}
 }
