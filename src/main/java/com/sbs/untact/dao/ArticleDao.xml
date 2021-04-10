@@ -5,19 +5,61 @@
 
 <mapper namespace="com.sbs.untact.dao.ArticleDao">
 	<select id="getArticlesTotalCount" resultType="int">
-		SELECT COUNT(*) AS cnt
+		SELECT COUNT(*) AS CNT
 		FROM article AS A
 		WHERE A.boardId = #{boardId}
+		<if test="searchKeywordType = 'titleAndBody'">
+			<if test="searchKeyword != null">
+				AND (
+				A.title LIKE CONCAT('%', #{searchKeyword}, '%')
+				OR
+				A.body LIKE CONCAT('%', #{searchKeyword}, '%')
+				)
+			</if>
+		</if>
+		<if test="searchKeywordType = 'title'">
+			<if test="searchKeyword != null">
+				AND 
+				A.title LIKE CONCAT('%', #{searchKeyword}, '%')
+			</if>
+		</if>		
+		<if test="searchKeywordType = 'body'">
+			<if test="searchKeyword != null">
+				AND 
+				A.body LIKE CONCAT('%', #{searchKeyword}, '%')
+			</if>
+		</if>		
 		AND A.delStatus = 0
 	</select>
-	
+
 	<select id="getForPrintArticles" resultType="Article">
 		SELECT *
 		FROM article AS A
 		WHERE A.boardId = #{boardId}
+		<if test="searchKeywordType = 'titleAndBody'">
+			<if test="searchKeyword != null">
+				AND (
+				A.title LIKE CONCAT('%', #{searchKeyword}, '%')
+				OR
+				A.body LIKE CONCAT('%', #{searchKeyword}, '%')
+				)
+			</if>
+		</if>
+		<if test="searchKeywordType = 'title'">
+			<if test="searchKeyword != null">
+				AND 
+				A.title LIKE CONCAT('%', #{searchKeyword}, '%')
+			</if>
+		</if>		
+		<if test="searchKeywordType = 'body'">
+			<if test="searchKeyword != null">
+				AND 
+				A.body LIKE CONCAT('%', #{searchKeyword}, '%')
+			</if>
+		</if>	
 		ORDER BY A.id DESC
 		LIMIT #{limitFrom}, #{limitTake};
-	</select>	
+	</select>
 
 	<select id="getBoardById" resultType="Board">
 		SELECT *
@@ -32,7 +74,7 @@
 		WHERE A.id = #{id}
 		AND A.delStatus = 0
 	</select>
-	
+
 	<select id="getLastInsertId" resultType="int">
 		SELECT LAST_INSERT_ID()
 	</select>
@@ -49,7 +91,8 @@
 	<insert id="writeArticle">
 		INSERT INTO article
 		SET regDate = NOW(),
-		updateDate = NOW(),
+		updateDate =
+		NOW(),
 		boardId = #{boardId},
 		memberId = #{memberId},
 		title = #{title},
@@ -60,7 +103,8 @@
 		UPDATE article
 		SET delStatus = 1,
 		delDate = NOW()
-		WHERE id = #{id}
+		WHERE
+		id = #{id}
 	</update>
 
 </mapper>

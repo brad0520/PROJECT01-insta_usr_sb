@@ -9,6 +9,7 @@ import com.sbs.untact.dao.ArticleDao;
 import com.sbs.untact.dto.Article;
 import com.sbs.untact.dto.Board;
 import com.sbs.untact.dto.ResultData;
+import com.sbs.untact.util.Util;
 
 @Service
 public class ArticleService {
@@ -66,14 +67,22 @@ public class ArticleService {
 		return articleDao.getBoardById(id);
 	}
 
-	public int getArticlesTotalCount(int boardId) {
-		return articleDao.getArticlesTotalCount(boardId);
+	public int getArticlesTotalCount(int boardId, String searchKeywordType, String searchKeyword) {
+		if (Util.isEmpty(searchKeyword)) {
+			searchKeyword = null;
+		}
+		
+		return articleDao.getArticlesTotalCount(boardId, searchKeywordType, searchKeyword);
 	}
 
-	public List<Article> getForPrintArticles(int boardId, int itemsCountInAPage, int page) {
+	public List<Article> getForPrintArticles(int boardId, String searchKeywordType, String searchKeyword, int itemsCountInAPage, int page) {
 		int limitFrom = (page - 1) * itemsCountInAPage;
 		int limitTake = itemsCountInAPage;
 		
-		return articleDao.getForPrintArticles(boardId, limitFrom, limitTake);
+		if (Util.isEmpty(searchKeyword)) {
+			searchKeyword = null;
+		}
+		
+		return articleDao.getForPrintArticles(boardId, searchKeywordType, searchKeyword, limitFrom, limitTake);
 	}
 }
