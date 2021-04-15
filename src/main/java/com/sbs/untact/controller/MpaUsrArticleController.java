@@ -103,7 +103,7 @@ public class MpaUsrArticleController {
 		if (Util.isEmpty(searchKeywordType)) {
 			searchKeywordType = "titleAndBody";
 		}
-
+		
 		req.setAttribute("board", board);
 
 		int totalItemsCount = articleService.getArticlesTotalCount(boardId, searchKeywordType, searchKeyword);

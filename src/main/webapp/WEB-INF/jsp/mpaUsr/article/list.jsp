@@ -26,9 +26,10 @@
 
 		<div class="search-form-box mt-2">
 			<form action="" class="flex">
-	
+				<label class="label">
+					<span class="label-text">게시판선택</span>
+				</label>
 				<select name="boardId" class="input input-bordered mr-2">
-				    <option value="">게시판선택</option>
 				    <option value="1">공지사항</option>
 				    <option value="2">자유게시판</option>				  
 				</select>
@@ -39,8 +40,11 @@
 						.val('${param.boardId}');							
 					}
 				</script>
+
+				<label class="label">
+					<span class="label-text">키워드타입</span>
+				</label>
 				<select name="searchKeywordType" class="input input-bordered">
-				    <option value="">키워드타입</option>
    				    <option value="titleAndBody">제목+내용</option>
 				    <option value="title">제목</option>
 				    <option value="body">내용</option>
