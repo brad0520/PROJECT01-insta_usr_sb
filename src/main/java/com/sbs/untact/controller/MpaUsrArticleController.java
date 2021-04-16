@@ -15,8 +15,12 @@ import com.sbs.untact.dto.Board;
 import com.sbs.untact.dto.ResultData;
 import com.sbs.untact.service.ArticleService;
 import com.sbs.untact.util.Util;
+import com.sbs.untact.controller.MpaUsrArticleController;
+
+import lombok.extern.slf4j.Slf4j;
 
 @Controller
+@Slf4j
 public class MpaUsrArticleController {
 
 	@Autowired
@@ -93,20 +97,24 @@ public class MpaUsrArticleController {
 	}
 
 	@RequestMapping("/mpaUsr/article/list")
-	public String showList(HttpServletRequest req, int boardId, String searchKeywordType, String searchKeyword, @RequestParam(defaultValue = "1") int page) {
+	public String showList(HttpServletRequest req, @RequestParam(defaultValue = "1") int boardId, String searchKeywordType, String searchKeyword, @RequestParam(defaultValue = "1") int page) {
 		Board board = articleService.getBoardById(boardId);
+
+		if (Util.isEmpty(searchKeywordType)) {
+			searchKeywordType = "titleAndBody";
+		}
 
 		if (board == null) {
 			return msgAndBack(req, boardId + "번 게시판이 존재하지 않습니다.");
 		}
 		
-		if (Util.isEmpty(searchKeywordType)) {
-			searchKeywordType = "titleAndBody";
-		}
-		
 		req.setAttribute("board", board);
 
 		int totalItemsCount = articleService.getArticlesTotalCount(boardId, searchKeywordType, searchKeyword);
+		
+		if ( searchKeyword == null || searchKeyword.trim().length() == 0 ) {
+			
+		}
 
 		req.setAttribute("totalItemsCount", totalItemsCount);
 
@@ -120,8 +128,6 @@ public class MpaUsrArticleController {
 		req.setAttribute("totalPage", totalPage);
 
 		List<Article> articles = articleService.getForPrintArticles(boardId, searchKeywordType, searchKeyword, itemsCountInAPage, page);
-
-		System.out.println("articles : " + articles);
 
 		req.setAttribute("articles", articles);
 

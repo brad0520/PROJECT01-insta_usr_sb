@@ -8,27 +8,21 @@
 		SELECT COUNT(*) AS CNT
 		FROM article AS A
 		WHERE A.boardId = #{boardId}
-		<if test="searchKeywordType == 'titleAndBody'">
-			<if test="searchKeyword != null">
+		<if test="searchKeyword != null">
+			<if test="searchKeywordTypeCode == 'titleAndBody'">
 				AND (
 				A.title LIKE CONCAT('%', #{searchKeyword}, '%')
 				OR
 				A.body LIKE CONCAT('%', #{searchKeyword}, '%')
 				)
 			</if>
+			<if test="searchKeywordTypeCode == 'title'">
+				AND A.title LIKE CONCAT('%', #{searchKeyword}, '%')
+			</if>
+			<if test="searchKeywordTypeCode == 'body'">
+				AND A.body LIKE CONCAT('%', #{searchKeyword}, '%')
+			</if>
 		</if>
-		<if test="searchKeywordType == 'title'">
-			<if test="searchKeyword != null">
-				AND 
-				A.title LIKE CONCAT('%', #{searchKeyword}, '%')
-			</if>
-		</if>		
-		<if test="searchKeywordType == 'body'">
-			<if test="searchKeyword != null">
-				AND 
-				A.body LIKE CONCAT('%', #{searchKeyword}, '%')
-			</if>
-		</if>		
 		AND A.delStatus = 0
 	</select>
 
@@ -36,27 +30,21 @@
 		SELECT *
 		FROM article AS A
 		WHERE A.boardId = #{boardId}
-		<if test="searchKeywordType == 'titleAndBody'">
-			<if test="searchKeyword != null">
+		<if test="searchKeyword != null">
+			<if test="searchKeywordTypeCode == 'titleAndBody'">
 				AND (
 				A.title LIKE CONCAT('%', #{searchKeyword}, '%')
 				OR
 				A.body LIKE CONCAT('%', #{searchKeyword}, '%')
 				)
 			</if>
+			<if test="searchKeywordTypeCode == 'title'">
+				AND A.title LIKE CONCAT('%', #{searchKeyword}, '%')
+			</if>
+			<if test="searchKeywordTypeCode == 'body'">
+				AND A.body LIKE CONCAT('%', #{searchKeyword}, '%')
+			</if>
 		</if>
-		<if test="searchKeywordType == 'title'">
-			<if test="searchKeyword != null">
-				AND 
-				A.title LIKE CONCAT('%', #{searchKeyword}, '%')
-			</if>
-		</if>		
-		<if test="searchKeywordType == 'body'">
-			<if test="searchKeyword != null">
-				AND 
-				A.body LIKE CONCAT('%', #{searchKeyword}, '%')
-			</if>
-		</if>	
 		ORDER BY A.id DESC
 		LIMIT #{limitFrom}, #{limitTake};
 	</select>
@@ -108,4 +96,5 @@
 	</update>
 
 </mapper>
+
 

@@ -76,12 +76,12 @@ public class ArticleService {
 	}
 
 	public List<Article> getForPrintArticles(int boardId, String searchKeywordType, String searchKeyword, int itemsCountInAPage, int page) {
-		int limitFrom = (page - 1) * itemsCountInAPage;
-		int limitTake = itemsCountInAPage;
-		
 		if (Util.isEmpty(searchKeyword)) {
 			searchKeyword = null;
 		}
+
+		int limitFrom = (page - 1) * itemsCountInAPage;
+		int limitTake = itemsCountInAPage;
 		
 		return articleDao.getForPrintArticles(boardId, searchKeywordType, searchKeyword, limitFrom, limitTake);
 	}
