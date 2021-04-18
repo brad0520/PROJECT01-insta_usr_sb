@@ -1,15 +1,13 @@
 package com.sbs.untact.service;
 
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.sbs.untact.dao.ArticleDao;
 import com.sbs.untact.dto.Article;
 import com.sbs.untact.dto.Board;
 import com.sbs.untact.dto.ResultData;
-import com.sbs.untact.util.Util;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class ArticleService {
@@ -50,9 +48,7 @@ public class ArticleService {
 		return new ResultData("S-1", id + "번 게시물이 삭제되었습니다.", "id", id, "boardId", article.getBoardId());
 	}
 
-	public ResultData writeArticle(String title, String body) {
-		int boardId = 3; // 가짜 데이터
-		int memberId = 3; // 가짜 데이터
+	public ResultData writeArticle(int boardId, int memberId, String title, String body) {
 		articleDao.writeArticle(boardId, memberId, title, body);
 		int id = articleDao.getLastInsertId();
 
@@ -67,22 +63,27 @@ public class ArticleService {
 		return articleDao.getBoardById(id);
 	}
 
-	public int getArticlesTotalCount(int boardId, String searchKeywordType, String searchKeyword) {
-		if (Util.isEmpty(searchKeyword)) {
+	public int getArticlesTotalCount(int boardId, String searchKeywordTypeCode, String searchKeyword) {
+		if (searchKeyword != null && searchKeyword.length() == 0) {
 			searchKeyword = null;
 		}
-		
-		return articleDao.getArticlesTotalCount(boardId, searchKeywordType, searchKeyword);
+
+		return articleDao.getArticlesTotalCount(boardId, searchKeywordTypeCode, searchKeyword);
 	}
 
-	public List<Article> getForPrintArticles(int boardId, String searchKeywordType, String searchKeyword, int itemsCountInAPage, int page) {
-		if (Util.isEmpty(searchKeyword)) {
+	public List<Article> getForPrintArticles(int boardId, String searchKeywordTypeCode, String searchKeyword,
+			int itemsCountInAPage, int page) {
+		if (searchKeyword != null && searchKeyword.length() == 0) {
 			searchKeyword = null;
 		}
 
 		int limitFrom = (page - 1) * itemsCountInAPage;
 		int limitTake = itemsCountInAPage;
-		
-		return articleDao.getForPrintArticles(boardId, searchKeywordType, searchKeyword, limitFrom, limitTake);
+
+		return articleDao.getForPrintArticles(boardId, searchKeywordTypeCode, searchKeyword, limitFrom, limitTake);
+	}
+
+	public Article getForPrintArticleById(int id) {
+		return articleDao.getForPrintArticleById(id);
 	}
 }

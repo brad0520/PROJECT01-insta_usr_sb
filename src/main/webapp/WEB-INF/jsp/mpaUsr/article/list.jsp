@@ -10,12 +10,12 @@
 <div class="section section-article-list">
 	<div class="container mx-auto">
 		<div class="total-items">
-			<span>TOTAL ITEMS : </span> 
+			<span>TOTAL ITEMS : </span>
 			<span>${totalItemsCount}</span>
 		</div>
 
 		<div class="total-pages">
-			<span>TOTAL PAGES : </span> 
+			<span>TOTAL PAGES : </span>
 			<span>${totalPage}</span>
 		</div>
 
@@ -119,7 +119,6 @@
 				<a class="${aClassStr}" href="${urlBase}&page=${totalPage}">▶▶</a>
 			</c:if>
 		</div>
-		
 	</div>
 </div>
 

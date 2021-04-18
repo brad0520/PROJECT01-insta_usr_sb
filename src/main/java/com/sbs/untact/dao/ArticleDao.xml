@@ -5,7 +5,7 @@
 
 <mapper namespace="com.sbs.untact.dao.ArticleDao">
 	<select id="getArticlesTotalCount" resultType="int">
-		SELECT COUNT(*) AS CNT
+		SELECT COUNT(*) AS cnt
 		FROM article AS A
 		WHERE A.boardId = #{boardId}
 		<if test="searchKeyword != null">
@@ -59,6 +59,16 @@
 	<select id="getArticleById" resultType="Article">
 		SELECT *
 		FROM article AS A
+		WHERE A.id = #{id}
+		AND A.delStatus = 0
+	</select>
+
+	<select id="getForPrintArticleById" resultType="Article">
+		SELECT A.*,
+		IFNULL(M.name, "삭제된_회원") AS extra__writerName
+		FROM article AS A
+		LEFT JOIN member AS M
+		ON A.memberId = M.id
 		WHERE A.id = #{id}
 		AND A.delStatus = 0
 	</select>
