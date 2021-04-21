@@ -1,12 +1,11 @@
 package com.sbs.untact.dao;
 
-import java.util.List;
-
+import com.sbs.untact.dto.Article;
+import com.sbs.untact.dto.Board;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
-import com.sbs.untact.dto.Article;
-import com.sbs.untact.dto.Board;
+import java.util.List;
 
 @Mapper
 public interface ArticleDao {

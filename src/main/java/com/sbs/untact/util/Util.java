@@ -339,4 +339,16 @@ public class Util {
 	public static String getNewUriAndEncoded(String uri, String paramName, String pramValue) {
 		return getUrlEncoded(getNewUrl(uri, paramName, pramValue));
 	}
+
+	public static String msgAndBack(HttpServletRequest req, String msg) {
+		req.setAttribute("msg", msg);
+		req.setAttribute("historyBack", true);
+		return "common/redirect";
+	}
+
+	public static String msgAndReplace(HttpServletRequest req, String msg, String replaceUrl) {
+		req.setAttribute("msg", msg);
+		req.setAttribute("replaceUrl", replaceUrl);
+		return "common/redirect";
+	}
 }
