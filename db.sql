@@ -110,3 +110,5 @@ SET regDate = NOW(),
 updateDate = NOW(),
 `name` = 'FREE',
 `code` = 'free';
+
+SELECT * FROM article;
