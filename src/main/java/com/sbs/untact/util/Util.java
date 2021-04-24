@@ -85,11 +85,11 @@ public class Util {
 		return sb.toString();
 	}
 
-	public static String msgAndReplace(String msg, String url) {
+	public static String msgAndReplace(String msg, String uri) {
 		StringBuilder sb = new StringBuilder();
 		sb.append("<script>");
 		sb.append("alert('" + msg + "');");
-		sb.append("location.replace('" + url + "');");
+		sb.append("location.replace('" + uri + "');");
 		sb.append("</script>");
 
 		return sb.toString();

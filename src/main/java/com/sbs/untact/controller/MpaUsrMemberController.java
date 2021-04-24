@@ -18,17 +18,30 @@ public class MpaUsrMemberController {
     @Autowired
     private MemberService memberService;
 
+    @RequestMapping("/mpaUsr/member/findLoginId")
+    public String showfindLoginId(HttpServletRequest req) {
+        return "mpaUsr/member/findLoginId";
+    }
+
+    @RequestMapping("/mpaUsr/member/doFindLoginId")
+    public String doFindLoginId(HttpServletRequest req, HttpSession session, String name, String email) {
+        Member member = memberService.getMemberByName(name);
+
+        if (member == null) {
+            return Util.msgAndBack(req, name + "으로 가입된 아이디가 없습니다.");
+        }
+
+        if (member.getEmail().equals(email) == false) {
+            return Util.msgAndBack(req, "가입된 이메일 주소와 일치하지 않습니다.");
+        }
+
+        String msg = "아이디는 " + member.getLoginId() + "입니다.";
+        return Util.msgAndReplace(req, msg, "/mpaUsr/member/login");
+    }
+    
     @RequestMapping("/mpaUsr/member/login")
     public String showLogin(HttpServletRequest req) {
         return "mpaUsr/member/login";
-    }
-
-    @RequestMapping("/mpaUsr/member/doLogout")
-    public String doLogout(HttpServletRequest req, HttpSession session) {
-        session.removeAttribute("loginedMemberId");
-
-        String msg = "로그아웃 되었습니다.";
-        return Util.msgAndReplace(req, msg, "/");
     }
 
     @RequestMapping("/mpaUsr/member/doLogin")
@@ -48,6 +61,14 @@ public class MpaUsrMemberController {
 
         String msg = "환영합니다.";
         return Util.msgAndReplace(req, msg, redirectUrl);
+    }
+    
+    @RequestMapping("/mpaUsr/member/doLogout")
+    public String doLogout(HttpServletRequest req, HttpSession session) {
+    	session.removeAttribute("loginedMemberId");
+    	
+    	String msg = "로그아웃 되었습니다.";
+    	return Util.msgAndReplace(req, msg, "/");
     }
 
     @RequestMapping("/mpaUsr/member/join")
