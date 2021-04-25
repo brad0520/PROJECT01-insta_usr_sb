@@ -35,7 +35,7 @@
         SET regDate = NOW(),
         updateDate = NOW(),
         loginId = #{loginId},
-        loginPw = #{loginPw},
+        loginPw = #{encryptedLoginPw},
         name = #{name},
         nickname = #{nickname},
         cellphoneNo = #{cellphoneNo},
