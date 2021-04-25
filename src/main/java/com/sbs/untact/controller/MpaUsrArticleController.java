@@ -1,19 +1,22 @@
 package com.sbs.untact.controller;
 
-import com.sbs.untact.dto.Article;
-import com.sbs.untact.dto.Board;
-import com.sbs.untact.dto.ResultData;
-import com.sbs.untact.service.ArticleService;
-import com.sbs.untact.util.Util;
-import lombok.extern.slf4j.Slf4j;
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.servlet.http.HttpServletRequest;
-import java.util.List;
+import com.sbs.untact.dto.Article;
+import com.sbs.untact.dto.Board;
+import com.sbs.untact.dto.ResultData;
+import com.sbs.untact.service.ArticleService;
+import com.sbs.untact.util.Util;
+
+import lombok.extern.slf4j.Slf4j;
 
 @Controller
 @Slf4j
@@ -69,8 +72,8 @@ public class MpaUsrArticleController {
             return Util.msgAndBack(req, writeArticleRd.getMsg());
         }
 
-        String replaceUrl = "detail?id=" + writeArticleRd.getBody().get("id");
-        return Util.msgAndReplace(req, writeArticleRd.getMsg(), replaceUrl);
+        String replaceUri = "detail?id=" + writeArticleRd.getBody().get("id");
+        return Util.msgAndReplace(req, writeArticleRd.getMsg(), replaceUri);
     }
 
     @RequestMapping("/mpaUsr/article/doModify")
@@ -111,9 +114,9 @@ public class MpaUsrArticleController {
             return Util.msgAndBack(req, rd.getMsg());
         }
 
-        String redirectUrl = "../article/list?boardId=" + rd.getBody().get("boardId");
+        String redirectUri = "../article/list?boardId=" + rd.getBody().get("boardId");
 
-        return Util.msgAndReplace(req, rd.getMsg(), redirectUrl);
+        return Util.msgAndReplace(req, rd.getMsg(), redirectUri);
     }
 
     @RequestMapping("/mpaUsr/article/list")

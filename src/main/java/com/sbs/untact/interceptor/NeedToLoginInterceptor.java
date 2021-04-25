@@ -2,6 +2,8 @@ package com.sbs.untact.interceptor;
 
 import com.sbs.untact.dto.Rq;
 import com.sbs.untact.util.Util;
+import com.sbs.untact.interceptor.NeedToLoginInterceptor;
+
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -18,7 +20,8 @@ public class NeedToLoginInterceptor implements HandlerInterceptor {
 
         if (rq.isNotLogined()) {
             resp.setContentType("text/html; charset=UTF-8");
-            resp.getWriter().append(Util.msgAndReplace("로그인 후 이용해주세요.", "../member/login"));
+            String afterLoginUri = rq.getEncodedCurrentUri();
+            resp.getWriter().append(Util.msgAndReplace("로그인 후 이용해주세요.", "../member/login?afterLoginUri=" + afterLoginUri));
             return false;
         }
 

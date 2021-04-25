@@ -1,10 +1,21 @@
 package com.sbs.untact.dto;
 
-public class Rq {
-    private Member loginedMember;
+import java.util.Map;
 
-    public Rq(Member loginedMember) {
+import com.sbs.untact.dto.Member;
+import com.sbs.untact.util.Util;
+
+public class Rq {
+    private String currentUrl;
+    private String currentUri;
+    private Member loginedMember;
+    private Map<String, String> paramMap;
+
+    public Rq(Member loginedMember, String currentUri, Map<String, String> paramMap) {
         this.loginedMember = loginedMember;
+        this.currentUrl = currentUri.split("\\?")[0];
+        this.currentUri = currentUri;
+        this.paramMap = paramMap;
     }
 
     public boolean isLogined() {
@@ -29,5 +40,29 @@ public class Rq {
         if (isNotLogined()) return "";
 
         return loginedMember.getNickname();
+    }
+
+    public String getEncodedCurrentUri() {
+        return Util.getUriEncoded(getCurrentUri());
+    }
+
+    private String getCurrentUri() {
+        return currentUri;
+    }
+
+    public String getLoginPageUri() {
+        String afterLoginUri;
+
+        if (isLoginPage()) {
+            afterLoginUri = Util.getUriEncoded(paramMap.get("afterLoginUri"));
+        } else {
+            afterLoginUri = getEncodedCurrentUri();
+        }
+
+        return "../member/login?afterLoginUri=" + afterLoginUri;
+    }
+
+    private boolean isLoginPage() {
+        return currentUrl.equals("/mpaUsr/member/login");
     }
 }
