@@ -21,6 +21,7 @@ import javax.servlet.http.HttpServletRequest;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+
 public class Util {
     public static String getNowDateStr() {
         SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -125,7 +126,7 @@ public class Util {
     public static String getUriEncoded(String str) {
         try {
             return URLEncoder.encode(str, "UTF-8");
-        } catch (UnsupportedEncodingException e) {
+        } catch (Exception e) {
             return str;
         }
     }

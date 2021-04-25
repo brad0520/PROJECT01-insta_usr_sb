@@ -35,7 +35,7 @@
         SET regDate = NOW(),
         updateDate = NOW(),
         loginId = #{loginId},
-        loginPw = #{encryptedLoginPw},
+        loginPw = #{loginPw},
         name = #{name},
         nickname = #{nickname},
         cellphoneNo = #{cellphoneNo},
@@ -65,5 +65,3 @@
         WHERE id = #{id}
     </update>
 </mapper>
-
-

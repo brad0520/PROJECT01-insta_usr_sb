@@ -29,9 +29,7 @@ public class MemberService {
     }
 
     public ResultData join(String loginId, String loginPw, String name, String nickname, String cellphoneNo, String email) {
-    	
-    	String encryptedLoginPw = Util.sha256(loginPw);
-    	memberDao.join(loginId, encryptedLoginPw, name, nickname, cellphoneNo, email);
+        memberDao.join(loginId, loginPw, name, nickname, cellphoneNo, email);
         int id = memberDao.getLastInsertId();
 
         return new ResultData("S-1", "회원가입이 완료되었습니다.", "id", id);
@@ -56,6 +54,8 @@ public class MemberService {
         if (sendResultData.isFail()) {
             return sendResultData;
         }
+
+        tempPassword = Util.sha256(tempPassword);
 
         setTempPassword(actor, tempPassword);
 
