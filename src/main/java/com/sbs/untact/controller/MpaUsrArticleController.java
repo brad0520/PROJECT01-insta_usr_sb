@@ -15,6 +15,7 @@ import com.sbs.untact.dto.Board;
 import com.sbs.untact.dto.ResultData;
 import com.sbs.untact.service.ArticleService;
 import com.sbs.untact.util.Util;
+import com.sbs.untact.controller.MpaUsrArticleController;
 
 import lombok.extern.slf4j.Slf4j;
 

@@ -8,6 +8,7 @@ import com.sbs.untact.dao.MemberDao;
 import com.sbs.untact.dto.Member;
 import com.sbs.untact.dto.ResultData;
 import com.sbs.untact.util.Util;
+import com.sbs.untact.service.MailService;
 
 @Service
 public class MemberService {

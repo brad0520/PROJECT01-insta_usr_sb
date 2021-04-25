@@ -11,6 +11,7 @@ import com.sbs.untact.dto.Member;
 import com.sbs.untact.dto.ResultData;
 import com.sbs.untact.service.MemberService;
 import com.sbs.untact.util.Util;
+import com.sbs.untact.controller.MpaUsrMemberController;
 
 import lombok.extern.slf4j.Slf4j;
 
