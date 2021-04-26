@@ -1,7 +1,5 @@
 package com.sbs.untact.dto;
 
-import com.sbs.untact.dto.Member;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

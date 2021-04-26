@@ -77,6 +77,7 @@ memberId = 2,
 title = '제목6',
 `body` = '본문6';
 
+
 # 게시판 테이블 생성
 CREATE TABLE board (
     id INT(10) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT COMMENT '번호',
@@ -168,3 +169,14 @@ UPDATE `member`
 SET loginPw = SHA2(loginPw, 256);
 
 SELECT * FROM `member`;
+
+# 게시물 대량 생성
+INSERT INTO article
+(regDate, updateDate, boardId, memberId, title, `body`)
+SELECT NOW(),
+NOW(),
+FLOOR(RAND() * 2) + 1,
+FLOOR(RAND() * 2) + 1,
+CONCAT('제목_', FLOOR(RAND() * 1000) + 1),
+CONCAT('내용_', FLOOR(RAND() * 1000) + 1)
+FROM article;

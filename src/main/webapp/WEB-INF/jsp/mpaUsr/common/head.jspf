@@ -102,7 +102,7 @@
                                 <span>
                                     <i class="fas fa-sign-out-alt"></i>
                                 </span>
-                                <span class="hidden md:block">&nbsp;${rq.getLoginedMemberNickname()}＇s MY PAGE</span>
+                                <span class="hidden md:block">&nbsp;${rq.getLoginedMember().getNickname()}＇s MY PAGE</span>
                             </a>
                         </li>
 						</c:if>

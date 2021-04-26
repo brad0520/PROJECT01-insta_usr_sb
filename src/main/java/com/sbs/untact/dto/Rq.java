@@ -2,7 +2,6 @@ package com.sbs.untact.dto;
 
 import java.util.Map;
 
-import com.sbs.untact.dto.Member;
 import com.sbs.untact.util.Util;
 
 public class Rq {
@@ -60,4 +59,5 @@ public class Rq {
         return currentUrl.equals("/mpaUsr/member/login");
     }
 }
+
 

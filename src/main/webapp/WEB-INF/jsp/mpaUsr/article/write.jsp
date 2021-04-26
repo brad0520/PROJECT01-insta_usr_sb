@@ -62,7 +62,7 @@ function ArticleWrite__submitForm(form) {
                     <span>작성</span>
                 </button>
 
-                <a href="#" class="btn btn-sm mb-1" title="자세히 보기">
+                <a href="list?boardId=${board.id}" class="btn btn-sm mb-1" title="자세히 보기">
                     <span><i class="fas fa-list"></i></span>
                     &nbsp;
                     <span>리스트</span>
