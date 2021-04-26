@@ -166,3 +166,5 @@ ALTER TABLE `member` MODIFY COLUMN loginPw VARCHAR(100) NOT NULL;
 # 기존 회원의 비밀번호를 암호화 해서 저장
 UPDATE `member`
 SET loginPw = SHA2(loginPw, 256);
+
+SELECT * FROM `member`;

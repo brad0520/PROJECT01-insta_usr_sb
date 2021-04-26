@@ -36,12 +36,6 @@ public class Rq {
         return loginedMember;
     }
 
-    public String getLoginedMemberNickname() {
-        if (isNotLogined()) return "";
-
-        return loginedMember.getNickname();
-    }
-
     public String getEncodedCurrentUri() {
         return Util.getUriEncoded(getCurrentUri());
     }
@@ -66,3 +60,4 @@ public class Rq {
         return currentUrl.equals("/mpaUsr/member/login");
     }
 }
+

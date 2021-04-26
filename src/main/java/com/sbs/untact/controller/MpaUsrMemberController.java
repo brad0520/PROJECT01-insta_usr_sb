@@ -11,6 +11,7 @@ import com.sbs.untact.dto.Member;
 import com.sbs.untact.dto.ResultData;
 import com.sbs.untact.service.MemberService;
 import com.sbs.untact.util.Util;
+import com.sbs.untact.dto.Rq;
 import com.sbs.untact.controller.MpaUsrMemberController;
 
 import lombok.extern.slf4j.Slf4j;
@@ -20,6 +21,34 @@ import lombok.extern.slf4j.Slf4j;
 public class MpaUsrMemberController {
     @Autowired
     private MemberService memberService;
+
+    @RequestMapping("/mpaUsr/member/modify")
+    public String showModify(HttpServletRequest req) {
+        return "mpaUsr/member/modify";
+    }
+
+    @RequestMapping("/mpaUsr/member/doModify")
+    public String doModify(HttpServletRequest req, String loginPw, String name, String
+            nickname, String cellphoneNo, String email) {
+
+        if (loginPw != null && loginPw.trim().length() == 0) {
+            loginPw = null;
+        }
+
+        int id = ((Rq) req.getAttribute("rq")).getLoginedMemberId();
+        ResultData modifyRd = memberService.modify(id, loginPw, name, nickname, cellphoneNo, email);
+
+        if (modifyRd.isFail()) {
+            return Util.msgAndBack(req, modifyRd.getMsg());
+        }
+
+        return Util.msgAndReplace(req, modifyRd.getMsg(), "/");
+    }
+
+    @RequestMapping("/mpaUsr/member/mypage")
+    public String showMypage(HttpServletRequest req) {
+        return "mpaUsr/member/mypage";
+    }
 
     @RequestMapping("/mpaUsr/member/login")
     public String showLogin(HttpServletRequest req) {
@@ -130,4 +159,21 @@ public class MpaUsrMemberController {
 
         return Util.msgAndReplace(req, joinRd.getMsg(), "/");
     }
+
+    @RequestMapping("/mpaUsr/member/checkPassword")
+    public String showCheckPassword(HttpServletRequest req) {
+        return "mpaUsr/member/checkPassword";
+    }
+
+    @RequestMapping("/mpaUsr/member/doCheckPassword")
+    public String doCheckPassword(HttpServletRequest req, String loginPw, String redirectUri) {
+        Member loginedMember = ((Rq) req.getAttribute("rq")).getLoginedMember();
+
+        if (loginedMember.getLoginPw().equals(loginPw) == false) {
+            return Util.msgAndBack(req, "비밀번호가 일치하지 않습니다.");
+        }
+
+        return Util.msgAndReplace(req, "", redirectUri);
+    }
 }
+

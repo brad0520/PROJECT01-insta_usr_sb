@@ -1,5 +1,7 @@
 package com.sbs.untact.dto;
 
+import com.sbs.untact.dto.Member;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,4 +21,8 @@ public class Member {
     private String email;
     private boolean delStatus;
     private String delDate;
+
+    public String getAuthLevelName() {
+        return "일반회원";
+    }
 }
