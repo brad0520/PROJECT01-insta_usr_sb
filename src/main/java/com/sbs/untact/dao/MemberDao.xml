@@ -25,6 +25,13 @@
         WHERE M.id = #{id}
         AND M.delStatus = 0
     </select>
+    
+    <select id="getMemberByName" resultType="Member">
+        SELECT *
+        FROM `member` AS M
+        WHERE M.name = #{name}
+        AND M.delStatus = 0
+    </select>
 
     <select id="getLastInsertId" resultType="int">
         SELECT LAST_INSERT_ID()

@@ -1,5 +1,7 @@
 package com.sbs.untact.service;
 
+import java.util.UUID;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -8,11 +10,12 @@ import com.sbs.untact.dao.MemberDao;
 import com.sbs.untact.dto.Member;
 import com.sbs.untact.dto.ResultData;
 import com.sbs.untact.util.Util;
-import com.sbs.untact.service.MailService;
 
 @Service
 public class MemberService {
-
+    @Autowired
+    private AttrService attrService;
+	
     @Autowired
     private MailService mailService;
 
@@ -38,7 +41,11 @@ public class MemberService {
     public Member getMemberById(int id) {
         return memberDao.getMemberById(id);
     }
-
+    
+	public Member getMemberByName(String name) {
+        return memberDao.getMemberByName(name);
+	}
+	
     public Member getMemberByNameAndEmail(String name, String email) {
         return memberDao.getMemberByNameAndEmail(name, email);
     }
@@ -70,5 +77,23 @@ public class MemberService {
         memberDao.modify(id, loginPw, name, nickname, cellphoneNo, email);
 
         return new ResultData("S-1", "회원정보가 수정되었습니다.", "id", id);
+    }
+
+    public ResultData checkValidCheckPasswordAuthCode(int actorId, String checkPasswordAuthCode) {
+        if (attrService.getValue("member__" + actorId + "__extra__checkPasswordAuthCode").equals(checkPasswordAuthCode)) {
+            return new ResultData("S-1", "유효한 키 입니다.");
+        }
+
+        return new ResultData("F-1", "유효하지 않은 키 입니다.");
+    }
+    
+    public String genCheckPasswordAuthCode(int actorId) {
+        String attrName = "member__" + actorId + "__extra__checkPasswordAuthCode";
+        String authCode = UUID.randomUUID().toString();
+        String expireDate = Util.getDateStrLater(60 * 60);
+
+        attrService.setValue(attrName, authCode, expireDate);
+
+        return authCode;
     }
 }

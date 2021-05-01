@@ -23,13 +23,30 @@ public class MpaUsrMemberController {
     private MemberService memberService;
 
     @RequestMapping("/mpaUsr/member/modify")
-    public String showModify(HttpServletRequest req) {
+    public String showModify(HttpServletRequest req,  String checkPasswordAuthCode) {
+
+        Member loginedMember = ((Rq) req.getAttribute("rq")).getLoginedMember();
+        ResultData checkValidCheckPasswordAuthCodeResultData = memberService
+                .checkValidCheckPasswordAuthCode(loginedMember.getId(), checkPasswordAuthCode);
+
+        if ( checkValidCheckPasswordAuthCodeResultData.isFail() ) {
+            return Util.msgAndBack(req, checkValidCheckPasswordAuthCodeResultData.getMsg());
+        }
+
         return "mpaUsr/member/modify";
     }
 
     @RequestMapping("/mpaUsr/member/doModify")
     public String doModify(HttpServletRequest req, String loginPw, String name, String
-            nickname, String cellphoneNo, String email) {
+            nickname, String cellphoneNo, String email, String checkPasswordAuthCode) {
+
+        Member loginedMember = ((Rq) req.getAttribute("rq")).getLoginedMember();
+        ResultData checkValidCheckPasswordAuthCodeResultData = memberService
+                .checkValidCheckPasswordAuthCode(loginedMember.getId(), checkPasswordAuthCode);
+
+        if ( checkValidCheckPasswordAuthCodeResultData.isFail() ) {
+            return Util.msgAndBack(req, checkValidCheckPasswordAuthCodeResultData.getMsg());
+        }
 
         if (loginPw != null && loginPw.trim().length() == 0) {
             loginPw = null;
@@ -44,7 +61,6 @@ public class MpaUsrMemberController {
 
         return Util.msgAndReplace(req, modifyRd.getMsg(), "/");
     }
-
     @RequestMapping("/mpaUsr/member/mypage")
     public String showMypage(HttpServletRequest req) {
         return "mpaUsr/member/mypage";
@@ -146,11 +162,17 @@ public class MpaUsrMemberController {
     public String doJoin(HttpServletRequest req, String loginId, String loginPw, String name, String
             nickname, String cellphoneNo, String email) {
         Member oldMember = memberService.getMemberByLoginId(loginId);
+        Member oldMember1 = memberService.getMemberByName(name);
 
         if (oldMember != null) {
             return Util.msgAndBack(req, loginId + "(은)는 이미 사용중인 로그인아이디 입니다.");
         }
-
+        if (oldMember1 !=null) {
+        	if (oldMember1.getEmail().equals(email)) {
+        		return Util.msgAndBack(req, email + "(은)는 이미 사용중인 이메일주소입니다.");
+        	}
+        }
+        
         ResultData joinRd = memberService.join(loginId, loginPw, name, nickname, cellphoneNo, email);
 
         if (joinRd.isFail()) {
@@ -172,6 +194,10 @@ public class MpaUsrMemberController {
         if (loginedMember.getLoginPw().equals(loginPw) == false) {
             return Util.msgAndBack(req, "비밀번호가 일치하지 않습니다.");
         }
+        
+        String authCode = memberService.genCheckPasswordAuthCode(loginedMember.getId());
+
+        redirectUri = Util.getNewUri(redirectUri, "checkPasswordAuthCode", authCode);
 
         return Util.msgAndReplace(req, "", redirectUri);
     }
