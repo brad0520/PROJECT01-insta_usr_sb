@@ -14,11 +14,11 @@ function Reply__submitForm(form) {
         return;
     }
 
-    form.reply.value = form.reply.value.trim();
+    form.body.value = form.body.value.trim();
 
-    if ( form.reply.value.length == 0 ) {
+    if ( form.body.value.length == 0 ) {
         alert('댓글을 입력해주세요.');
-        form.reply.focus();
+        form.body.focus();
 
         return;
     }
@@ -97,11 +97,50 @@ function Reply__submitForm(form) {
                 </div>
             </div>
 
+			<div class="card bordered shadow-lg">
+                <div class="card-title">
+                    <a href="javascript:history.back();" class="cursor-pointer">
+                        <i class="fas fa-chevron-left"></i>
+                    </a>
+                    <span>댓글 리스트</span>
+                </div>
+                <div class="item-bt-1-not-last-child">
+                    <c:forEach items="${replies}" var="reply">
+  <%--                       <c:set var="detailUri" value="../article/detail?id=${article.id}" /> --%>
+                        <!-- 게시물 아이템, first -->
+                        <div class="px-4 py-8">
+                            <a href="#" class="hover:underline cursor-pointer">
+                                <span class="badge badge-outline">제목</span>
+                                <div class="line-clamp-3">
+                                    ${reply.body}
+                                </div>
+                            </a>
+
+                            <div class="plain-link-wrap gap-3 mt-4">
+                                <a href="#" class="plain-link">
+                                    <span><i class="fas fa-edit"></i></span>
+                                    <span>수정</span>
+                                </a>
+                                <a onclick="if ( !confirm('삭제하시겠습니까?') ) return false;" href="#" class="plain-link">
+                                    <span><i class="fas fa-trash"></i></span>
+                                    <span>삭제</span>
+                                </a>
+                            </div>
+                        </div>
+                        <hr />
+                    </c:forEach>
+                </div>
+            </div>
+            
+
+
             <div>
                 <h1 class="title-bar-type-2 px-4">댓글</h1>
                 <div class="px-4 py-8">
                     <!-- 댓글 입력 시작 -->
                     <form method="POST" action="doReply" onsubmit="Reply__submitForm(this); return false;" class="relative flex py-4 text-gray-600 focus-within:text-gray-400">
+				        <input type="hidden" name="articleId" value="${article.id}" />
+			    	    <input type="hidden" name="memberId" value="${member.id}" />
 
                         <img class="w-10 h-10 object-cover rounded-full shadow mr-2 cursor-pointer" alt="User avatar" src="https://images.unsplash.com/photo-1477118476589-bff2c5c4cfbb?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=crop&amp;w=200&amp;q=200">
 
@@ -113,7 +152,7 @@ function Reply__submitForm(form) {
                             </button>
                         </span>
 
-                        <input type="search" name="reply" class="w-full py-2 pl-4 pr-10 text-sm bg-gray-100 border border-transparent appearance-none rounded-tg placeholder-gray-400 focus:bg-white focus:outline-none focus:border-blue-500 focus:text-gray-900 focus:shadow-outline-blue" style="border-radius: 25px" placeholder="댓글을 입력해주세요." autocomplete="off">
+                        <input type="text" name="body" maxlength="300" class="w-full py-2 pl-4 pr-10 text-sm bg-gray-100 border border-transparent appearance-none rounded-tg placeholder-gray-400 focus:bg-white focus:outline-none focus:border-blue-500 focus:text-gray-900 focus:shadow-outline-blue" style="border-radius: 25px" placeholder="댓글을 입력해주세요." autocomplete="off">
                     </form>
                     <!-- 댓글 입력 끝 -->
                 </div>

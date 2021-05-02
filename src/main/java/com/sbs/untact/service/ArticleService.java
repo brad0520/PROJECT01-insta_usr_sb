@@ -3,6 +3,7 @@ package com.sbs.untact.service;
 import com.sbs.untact.dao.ArticleDao;
 import com.sbs.untact.dto.Article;
 import com.sbs.untact.dto.Board;
+import com.sbs.untact.dto.Reply;
 import com.sbs.untact.dto.ResultData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -55,6 +56,12 @@ public class ArticleService {
 		return new ResultData("S-1", "게시물이 작성되었습니다.", "id", id);
 	}
 
+	public ResultData reply(int articleId, int memberId, String body) {
+		articleDao.reply(articleId, memberId, body);
+
+		return new ResultData("S-1", "댓글이 작성되었습니다.");
+	}
+
 	public Article getArticleById(int id) {
 		return articleDao.getArticleById(id);
 	}
@@ -86,4 +93,9 @@ public class ArticleService {
 	public Article getForPrintArticleById(int id) {
 		return articleDao.getForPrintArticleById(id);
 	}
+
+	public List<Reply> getRepliesById(int id) {
+		return articleDao.getRepliesById(id);
+	}
+
 }

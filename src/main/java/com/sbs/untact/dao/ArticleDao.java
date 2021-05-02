@@ -2,6 +2,8 @@ package com.sbs.untact.dao;
 
 import com.sbs.untact.dto.Article;
 import com.sbs.untact.dto.Board;
+import com.sbs.untact.dto.Reply;
+
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -30,4 +32,8 @@ public interface ArticleDao {
                                       @Param("limitFrom") int limitFrom, @Param("limitTake") int limitTake);
 
     Article getForPrintArticleById(@Param("id") int id);
+
+	void reply(@Param("articleId") int articleId, @Param("memberId") int memberId, @Param("body") String body);
+
+	List<Reply> getRepliesById(int id);
 }

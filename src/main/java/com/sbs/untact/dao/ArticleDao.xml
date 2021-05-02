@@ -62,6 +62,12 @@
 		WHERE A.id = #{id}
 		AND A.delStatus = 0
 	</select>
+	
+	<select id="getRepliesById" resultType="Reply">
+		SELECT *
+		FROM reply AS R
+		WHERE R.articleId = #{id}
+	</select>
 
 	<select id="getForPrintArticleById" resultType="Article">
 		SELECT A.*,
@@ -80,8 +86,7 @@
 	<update id="modifyArticle">
 		UPDATE article
 		SET updateDate = NOW(),
-		title =
-		#{title},
+		title = #{title},
 		body = #{body}
 		WHERE id = #{id}
 	</update>
@@ -89,11 +94,19 @@
 	<insert id="writeArticle">
 		INSERT INTO article
 		SET regDate = NOW(),
-		updateDate =
-		NOW(),
+		updateDate = NOW(),
 		boardId = #{boardId},
 		memberId = #{memberId},
 		title = #{title},
+		body = #{body}
+	</insert>
+	
+	<insert id="reply">
+		INSERT INTO reply
+		SET regDate = NOW(),
+		updateDate = NOW(),
+		articleId = #{articleId},
+		memberId = #{memberId},
 		body = #{body}
 	</insert>
 
