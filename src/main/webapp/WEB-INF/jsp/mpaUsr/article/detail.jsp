@@ -7,6 +7,27 @@
 
 <%@ include file="../common/head.jspf"%>
 
+<script>
+let Reply__submitFormDone = false;
+function Reply__submitForm(form) {
+    if ( Reply__submitFormDone ) {
+        return;
+    }
+
+    form.reply.value = form.reply.value.trim();
+
+    if ( form.reply.value.length == 0 ) {
+        alert('댓글을 입력해주세요.');
+        form.reply.focus();
+
+        return;
+    }
+
+    form.submit();
+    Reply__submitFormDone = true;
+}
+</script>
+
 <div class="section section-article-list">
 	<div class="container mx-auto">
 	    <div class="card bordered shadow-lg item-bt-1-not-last-child">
@@ -80,7 +101,8 @@
                 <h1 class="title-bar-type-2 px-4">댓글</h1>
                 <div class="px-4 py-8">
                     <!-- 댓글 입력 시작 -->
-                    <form class="relative flex py-4 text-gray-600 focus-within:text-gray-400">
+                    <form method="POST" action="doReply" onsubmit="Reply__submitForm(this); return false;" class="relative flex py-4 text-gray-600 focus-within:text-gray-400">
+
                         <img class="w-10 h-10 object-cover rounded-full shadow mr-2 cursor-pointer" alt="User avatar" src="https://images.unsplash.com/photo-1477118476589-bff2c5c4cfbb?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=crop&amp;w=200&amp;q=200">
 
                         <span class="absolute inset-y-0 right-0 flex items-center pr-6">
@@ -91,7 +113,7 @@
                             </button>
                         </span>
 
-                        <input type="search" class="w-full py-2 pl-4 pr-10 text-sm bg-gray-100 border border-transparent appearance-none rounded-tg placeholder-gray-400 focus:bg-white focus:outline-none focus:border-blue-500 focus:text-gray-900 focus:shadow-outline-blue" style="border-radius: 25px" placeholder="댓글을 입력해주세요." autocomplete="off">
+                        <input type="search" name="reply" class="w-full py-2 pl-4 pr-10 text-sm bg-gray-100 border border-transparent appearance-none rounded-tg placeholder-gray-400 focus:bg-white focus:outline-none focus:border-blue-500 focus:text-gray-900 focus:shadow-outline-blue" style="border-radius: 25px" placeholder="댓글을 입력해주세요." autocomplete="off">
                     </form>
                     <!-- 댓글 입력 끝 -->
                 </div>

@@ -24,12 +24,22 @@ public class MemberService {
     private String siteMainUri;
     @Value("${custom.siteName}")
     private String siteName;
+    
+    @Value("${custom.needToChangePasswordFreeDays}")
+    private int needToChangePasswordFreeDays;
 
     @Autowired
     private MemberDao memberDao;
 
     public Member getMemberByLoginId(String loginId) {
         return memberDao.getMemberByLoginId(loginId);
+    }
+	public Member getMemberByName(String name) {
+		return memberDao.getMemberByName(name);
+	}
+    
+    public int getNeedToChangePasswordFreeDays() {
+        return needToChangePasswordFreeDays;
     }
 
     public ResultData join(String loginId, String loginPw, String name, String nickname, String cellphoneNo, String email) {
@@ -110,8 +120,6 @@ public class MemberService {
         return attrService.getValue("member", actorId, "extra", "needToChangePassword").equals("0") == false;
     }
 
-	public Member getMemberByName(String name) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+
+
 }

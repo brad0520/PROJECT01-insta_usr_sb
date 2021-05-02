@@ -56,6 +56,23 @@ public class MpaUsrArticleController {
     }
 
     @RequestMapping("/mpaUsr/article/doWrite")
+    public String doWrite(HttpServletRequest req, int articleId, int memberId, String body) {
+
+        if (Util.isEmpty(body)) {
+            return Util.msgAndBack(req, "내용을 입력해주세요.");
+        }
+
+        ResultData replyArticleRd = articleService.writeArticle(boardId, memberId, title, body);
+
+        if (writeArticleRd.isFail()) {
+            return Util.msgAndBack(req, writeArticleRd.getMsg());
+        }
+
+        String replaceUri = "detail?id=" + writeArticleRd.getBody().get("id");
+        return Util.msgAndReplace(req, writeArticleRd.getMsg(), replaceUri);
+    }
+    
+    @RequestMapping("/mpaUsr/article/doReply")
     public String doWrite(HttpServletRequest req, int boardId, String title, String body) {
         if (Util.isEmpty(title)) {
             return Util.msgAndBack(req, "제목을 입력해주세요.");
@@ -76,7 +93,6 @@ public class MpaUsrArticleController {
         String replaceUri = "detail?id=" + writeArticleRd.getBody().get("id");
         return Util.msgAndReplace(req, writeArticleRd.getMsg(), replaceUri);
     }
-
     @RequestMapping("/mpaUsr/article/doModify")
     @ResponseBody
     public ResultData doModify(Integer id, String title, String body) {
