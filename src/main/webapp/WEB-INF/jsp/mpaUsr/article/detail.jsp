@@ -104,18 +104,18 @@ function Reply__submitForm(form) {
                     </a>
                     <span>댓글 리스트</span>
                 </div>
-                <div class="item-bt-1-not-last-child">
+                <div class="reply-list item-bt-1-not-last-child">
                     <c:forEach items="${replies}" var="reply">
   <%--                       <c:set var="detailUri" value="../article/detail?id=${article.id}" /> --%>
                         <!-- 게시물 아이템, first -->
-                        <div class="px-4 py-8">
-                            <a href="#" class="hover:underline cursor-pointer">
-                                <span class="badge badge-outline">제목</span>
+                        <div class="flex px-4 py-2">
+                            <a href="#" class="flex hover:underline cursor-pointer">
+                                <span class="badge badge-outline mr-8">댓글</span>
                                 <div class="line-clamp-3">
                                     ${reply.body}
                                 </div>
                             </a>
-
+							<div class="flex-grow"></div>
                             <div class="plain-link-wrap gap-3 mt-4">
                                 <a href="#" class="plain-link">
                                     <span><i class="fas fa-edit"></i></span>
@@ -136,7 +136,7 @@ function Reply__submitForm(form) {
 
             <div>
                 <h1 class="title-bar-type-2 px-4">댓글</h1>
-                <div class="px-4 py-8">
+                <div class="px-4 py-4">
                     <!-- 댓글 입력 시작 -->
                     <form method="POST" action="doReply" onsubmit="Reply__submitForm(this); return false;" class="relative flex py-4 text-gray-600 focus-within:text-gray-400">
 				        <input type="hidden" name="articleId" value="${article.id}" />

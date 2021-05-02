@@ -286,3 +286,10 @@ box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #
   position:fixed;
 }
 /* 탑바 끝 */
+
+/* 리플라이 시작 */
+.reply-list > div > a {
+	align-items: center;
+}
+
+/* 리플라이 끝 */
