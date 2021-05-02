@@ -21,6 +21,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 
+
 public class Util {
     public static String getNowDateStr() {
         SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -386,11 +387,11 @@ public class Util {
             return "";
         }
     }
-    
-    public static String getDateStrLater(int seconds) {
-        SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
-        String dateStr = format1.format(System.currentTimeMillis() + seconds * 1000);
+    public static String getDateStrLater(long seconds) {
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+        String dateStr = format.format(System.currentTimeMillis() + seconds * 1000);
 
         return dateStr;
     }

@@ -13,9 +13,10 @@ import com.sbs.untact.util.Util;
 
 @Service
 public class MemberService {
+
     @Autowired
     private AttrService attrService;
-	
+
     @Autowired
     private MailService mailService;
 
@@ -35,17 +36,15 @@ public class MemberService {
         memberDao.join(loginId, loginPw, name, nickname, cellphoneNo, email);
         int id = memberDao.getLastInsertId();
 
+        attrService.setValue("member", id, "extra", "needToChangePassword", "0", Util.getDateStrLater(60 * 60 * 24 * 90));
+
         return new ResultData("S-1", "회원가입이 완료되었습니다.", "id", id);
     }
 
     public Member getMemberById(int id) {
         return memberDao.getMemberById(id);
     }
-    
-	public Member getMemberByName(String name) {
-        return memberDao.getMemberByName(name);
-	}
-	
+
     public Member getMemberByNameAndEmail(String name, String email) {
         return memberDao.getMemberByNameAndEmail(name, email);
     }
@@ -70,11 +69,17 @@ public class MemberService {
     }
 
     private void setTempPassword(Member actor, String tempPassword) {
+        attrService.setValue("member", actor.getId(), "extra", "useTempPassword", "1", null);
         memberDao.modify(actor.getId(), tempPassword, null, null, null, null);
     }
 
     public ResultData modify(int id, String loginPw, String name, String nickname, String cellphoneNo, String email) {
         memberDao.modify(id, loginPw, name, nickname, cellphoneNo, email);
+
+        if (loginPw != null) {
+            attrService.setValue("member", id, "extra", "needToChangePassword", "0", Util.getDateStrLater(60 * 60 * 24 * 90));
+            attrService.remove("member", id, "extra", "useTempPassword");
+        }
 
         return new ResultData("S-1", "회원정보가 수정되었습니다.", "id", id);
     }
@@ -86,7 +91,7 @@ public class MemberService {
 
         return new ResultData("F-1", "유효하지 않은 키 입니다.");
     }
-    
+
     public String genCheckPasswordAuthCode(int actorId) {
         String attrName = "member__" + actorId + "__extra__checkPasswordAuthCode";
         String authCode = UUID.randomUUID().toString();
@@ -96,4 +101,17 @@ public class MemberService {
 
         return authCode;
     }
+
+    public boolean usingTempPassword(int actorId) {
+        return attrService.getValue("member", actorId, "extra", "useTempPassword").equals("1");
+    }
+
+    public boolean needToChangePassword(int actorId) {
+        return attrService.getValue("member", actorId, "extra", "needToChangePassword").equals("0") == false;
+    }
+
+	public Member getMemberByName(String name) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

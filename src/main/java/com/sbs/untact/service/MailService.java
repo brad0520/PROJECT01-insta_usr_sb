@@ -2,6 +2,7 @@ package com.sbs.untact.service;
 
 
 import java.io.UnsupportedEncodingException;
+
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 
@@ -77,4 +78,3 @@ public class MailService {
         return new ResultData("S-1", "메일이 발송되었습니다.");
     }
 }
-
