@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.sbs.untact.dao.ReplyDao">
+
+	<update id="modifyReply">
+		UPDATE reply
+		SET updateDate = NOW(),
+		body = #{body}
+		WHERE id = #{id}
+	</update>
+	
+	<insert id="doReply">
+		INSERT INTO reply
+		SET regDate = NOW(),
+		updateDate = NOW(),
+		articleId = #{articleId},
+		memberId = #{memberId},
+		body = #{body}
+	</insert>
+	
+	<select id="getReplyById" resultType="Reply">
+		SELECT *
+		FROM reply AS R
+		WHERE R.id = #{id}
+	</select>
+	
+	<select id="getRepliesById" resultType="Reply">
+		SELECT *
+		FROM reply AS R
+		WHERE R.articleId = #{id}
+	</select>
+
+	<update id="deleteReplyById">
+		DELETE 
+		FROM reply
+		WHERE id = #{replyId}
+	</update>
+
+</mapper>
+
+
+

@@ -62,12 +62,6 @@
 		WHERE A.id = #{id}
 		AND A.delStatus = 0
 	</select>
-	
-	<select id="getRepliesById" resultType="Reply">
-		SELECT *
-		FROM reply AS R
-		WHERE R.articleId = #{id}
-	</select>
 
 	<select id="getForPrintArticleById" resultType="Article">
 		SELECT A.*,
@@ -109,6 +103,12 @@
 		memberId = #{memberId},
 		body = #{body}
 	</insert>
+	
+	<select id="getRepliesById" resultType="Reply">
+		SELECT *
+		FROM reply AS R
+		WHERE R.articleId = #{id}
+	</select>
 
 	<update id="deleteArticleById">
 		UPDATE article

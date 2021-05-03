@@ -56,12 +56,6 @@ public class ArticleService {
 		return new ResultData("S-1", "게시물이 작성되었습니다.", "id", id);
 	}
 
-	public ResultData reply(int articleId, int memberId, String body) {
-		articleDao.reply(articleId, memberId, body);
-
-		return new ResultData("S-1", "댓글이 작성되었습니다.");
-	}
-
 	public Article getArticleById(int id) {
 		return articleDao.getArticleById(id);
 	}
@@ -92,10 +86,6 @@ public class ArticleService {
 
 	public Article getForPrintArticleById(int id) {
 		return articleDao.getForPrintArticleById(id);
-	}
-
-	public List<Reply> getRepliesById(int id) {
-		return articleDao.getRepliesById(id);
 	}
 
 }

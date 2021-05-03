@@ -17,8 +17,8 @@ import com.sbs.untact.dto.Reply;
 import com.sbs.untact.dto.ResultData;
 import com.sbs.untact.dto.Rq;
 import com.sbs.untact.service.ArticleService;
+import com.sbs.untact.service.ReplyService;
 import com.sbs.untact.util.Util;
-import com.sbs.untact.controller.MpaUsrArticleController;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -28,7 +28,9 @@ public class MpaUsrArticleController {
 
     @Autowired
     private ArticleService articleService;
-
+    @Autowired
+    private ReplyService replyService;
+    
     @RequestMapping("/mpaUsr/article/detail")
     public String showDetail(HttpServletRequest req, int id) {
         Article article = articleService.getForPrintArticleById(id);
@@ -38,7 +40,7 @@ public class MpaUsrArticleController {
         }
         Member member = ((Rq) req.getAttribute("rq")).getLoginedMember();
         Board board = articleService.getBoardById(article.getBoardId());
-        List<Reply> replies = articleService.getRepliesById(id);
+        List<Reply> replies = replyService.getRepliesById(id);
 
         req.setAttribute("article", article);
         req.setAttribute("board", board);
@@ -93,8 +95,7 @@ public class MpaUsrArticleController {
             return Util.msgAndBack(req, "댓글 내용을 입력해주세요.");
         }
 
-
-        ResultData replyRd = articleService.reply(articleId, memberId, body);
+        ResultData replyRd = replyService.doReply(articleId, memberId, body);
 
         if (replyRd.isFail()) {
             return Util.msgAndBack(req, replyRd.getMsg());
@@ -103,6 +104,24 @@ public class MpaUsrArticleController {
         String replaceUri = "detail?id=" + articleId;
         return Util.msgAndReplace(req, replyRd.getMsg(), replaceUri);
     }
+    
+    @RequestMapping("/mpaUsr/article/doDeleteReply")
+
+    public String doDeleteReply(HttpServletRequest req, Integer replyId) {
+        if (Util.isEmpty(replyId)) {
+            return Util.msgAndBack(req, "댓글 id를 입력해주세요.");
+        }
+
+        ResultData rd = replyService.doDeleteReply(replyId);
+
+        if (rd.isFail()) {
+            return Util.msgAndBack(req, rd.getMsg());
+        }
+
+        String redirectUri = "detail?Id=" + rd.getBody().get("articleId");
+
+        return Util.msgAndReplace(req, rd.getMsg(), redirectUri);
+    } 
     
     @RequestMapping("/mpaUsr/article/doModify")
     @ResponseBody
@@ -130,7 +149,6 @@ public class MpaUsrArticleController {
     }
 
     @RequestMapping("/mpaUsr/article/doDelete")
-
     public String doDelete(HttpServletRequest req, Integer id) {
         if (Util.isEmpty(id)) {
             return Util.msgAndBack(req, "id를 입력해주세요.");

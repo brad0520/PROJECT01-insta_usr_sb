@@ -108,7 +108,9 @@ function Reply__submitForm(form) {
                     <c:forEach items="${replies}" var="reply">
   <%--                       <c:set var="detailUri" value="../article/detail?id=${article.id}" /> --%>
                         <!-- 게시물 아이템, first -->
-                        <div class="flex px-4 py-2">
+                        <form method="POST" action="doDeleteReply" class="flex px-4 py-2">
+      				        <input type="hidden" name="replyId" value="${reply.id}" />
+							<input type="hidden" name="articleId" value="${article.id}" />
                             <a href="#" class="flex hover:underline cursor-pointer">
                                 <span class="badge badge-outline mr-8">댓글</span>
                                 <div class="line-clamp-3">
@@ -121,12 +123,12 @@ function Reply__submitForm(form) {
                                     <span><i class="fas fa-edit"></i></span>
                                     <span>수정</span>
                                 </a>
-                                <a onclick="if ( !confirm('삭제하시겠습니까?') ) return false;" href="#" class="plain-link">
+                                <button type="submit" onclick="if ( !confirm('삭제하시겠습니까?') ) return false;" href="#" class="plain-link">
                                     <span><i class="fas fa-trash"></i></span>
                                     <span>삭제</span>
-                                </a>
+                                </button>
                             </div>
-                        </div>
+                        </form>
                         <hr />
                     </c:forEach>
                 </div>
