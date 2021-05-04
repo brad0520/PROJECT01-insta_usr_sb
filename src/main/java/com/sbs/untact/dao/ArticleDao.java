@@ -32,8 +32,4 @@ public interface ArticleDao {
                                       @Param("limitFrom") int limitFrom, @Param("limitTake") int limitTake);
 
     Article getForPrintArticleById(@Param("id") int id);
-
-	void reply(@Param("articleId") int articleId, @Param("memberId") int memberId, @Param("body") String body);
-
-	List<Reply> getRepliesById(int id);
 }

@@ -20,8 +20,6 @@ import javax.servlet.http.HttpServletRequest;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-
-
 public class Util {
     public static String getNowDateStr() {
         SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -95,6 +93,17 @@ public class Util {
         sb.append("</script>");
 
         return sb.toString();
+    }
+
+    public static String toJsonStr(Object obj) {
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            return mapper.writeValueAsString(obj);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+
+        return "";
     }
 
     public static String toJsonStr(Map<String, Object> param) {
@@ -233,7 +242,7 @@ public class Util {
                 .collect(Collectors.toList());
     }
 
-    public static boolean delteFile(String filePath) {
+    public static boolean deleteFile(String filePath) {
         java.io.File ioFile = new java.io.File(filePath);
         if (ioFile.exists()) {
             return ioFile.delete();
@@ -394,5 +403,15 @@ public class Util {
         String dateStr = format.format(System.currentTimeMillis() + seconds * 1000);
 
         return dateStr;
+    }
+
+    public static <T> T fromJsonStr(String jsonStr, Class<T> cls) {
+        ObjectMapper om = new ObjectMapper();
+        try {
+            return (T) om.readValue(jsonStr, cls);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 }

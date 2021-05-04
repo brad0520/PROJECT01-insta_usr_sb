@@ -22,6 +22,7 @@ public class MpaUsrMemberController {
     @Autowired
     private MemberService memberService;
 
+    // checkPasswordAuthCode : 체크비밀번호인증코드
     @RequestMapping("/mpaUsr/member/modify")
     public String showModify(HttpServletRequest req,  String checkPasswordAuthCode) {
 
@@ -61,6 +62,7 @@ public class MpaUsrMemberController {
 
         return Util.msgAndReplace(req, modifyRd.getMsg(), "/");
     }
+
     @RequestMapping("/mpaUsr/member/mypage")
     public String showMypage(HttpServletRequest req) {
         return "mpaUsr/member/mypage";
@@ -146,8 +148,8 @@ public class MpaUsrMemberController {
             return Util.msgAndBack(req, "비밀번호가 일치하지 않습니다.");
         }
 
-        //HttpSession session = req.getSession();
         session.setAttribute("loginedMemberId", member.getId());
+        session.setAttribute("loginedMemberJsonStr", member.toJsonStr());
 
         String msg = "환영합니다.";
 
@@ -212,7 +214,7 @@ public class MpaUsrMemberController {
         if (loginedMember.getLoginPw().equals(loginPw) == false) {
             return Util.msgAndBack(req, "비밀번호가 일치하지 않습니다.");
         }
-        
+
         String authCode = memberService.genCheckPasswordAuthCode(loginedMember.getId());
 
         redirectUri = Util.getNewUri(redirectUri, "checkPasswordAuthCode", authCode);
@@ -220,4 +222,3 @@ public class MpaUsrMemberController {
         return Util.msgAndReplace(req, "", redirectUri);
     }
 }
-
