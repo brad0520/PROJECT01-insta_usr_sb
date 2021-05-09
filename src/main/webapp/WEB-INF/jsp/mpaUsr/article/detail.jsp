@@ -140,7 +140,11 @@
                                 <c:if test="${reply.memberId == rq.loginedMemberId}">
                                     <a onclick="if ( !confirm('정말 삭제하시겠습니까?') ) return false;" href="../reply/doDelete?id=${reply.id}&redirectUri=${rq.encodedCurrentUri}" class="plain-link">
                                         <span><i class="fas fa-trash-alt"></i></span>
-                                        <span>글 삭제</span>
+                                        <span>댓글 삭제</span>
+                                    </a>
+                                	<a href="../reply/modify?id=${reply.id}" class="plain-link">
+                                        <span><i class="fas fa-trash-alt"></i></span>
+                                        <span>댓글 수정</span>
                                     </a>
                                 </c:if>
                             </div>

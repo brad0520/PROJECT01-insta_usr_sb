@@ -3,11 +3,13 @@ package com.sbs.untact.dto;
 import java.util.Map;
 
 import com.sbs.untact.util.Util;
+import com.sbs.untact.dto.Member;
 
 import lombok.Getter;
 
 public class Rq {
     private String currentUrl;
+    @Getter
     private String currentUri;
     private Member loginedMember;
     private Map<String, String> paramMap;
@@ -44,7 +46,7 @@ public class Rq {
         return Util.getUriEncoded(getCurrentUri());
     }
 
-    private String getCurrentUri() {
+    public String getCurrentUri() {
         return currentUri;
     }
 

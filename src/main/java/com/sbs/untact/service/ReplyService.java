@@ -33,4 +33,9 @@ public class ReplyService {
 
         return new ResultData("S-1", id + "번 댓글이 삭제되었습니다.", "id", id);
     }
+
+	public ResultData modify(int id, String body) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
