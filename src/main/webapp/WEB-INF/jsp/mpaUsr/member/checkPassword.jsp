@@ -53,7 +53,7 @@ function MemberCheckPassword__submitForm(form) {
                     <span>비밀번호 확인</span>
                 </button>
 
-                <a href="/" class="btn btn-link btn-sm mb-1">
+                <a href="#" class="btn btn-link btn-sm mb-1">
                     <span><i class="fas fa-home"></i></span>
                     &nbsp;
                     <span>홈</span>

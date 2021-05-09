@@ -1,26 +1,18 @@
 package com.sbs.untact.controller;
 
-import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-
+import com.sbs.untact.dto.*;
+import com.sbs.untact.service.ArticleService;
+import com.sbs.untact.service.ReplyService;
+import com.sbs.untact.util.Util;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.sbs.untact.dto.Article;
-import com.sbs.untact.dto.Board;
-import com.sbs.untact.dto.Member;
-import com.sbs.untact.dto.Reply;
-import com.sbs.untact.dto.ResultData;
-import com.sbs.untact.dto.Rq;
-import com.sbs.untact.service.ArticleService;
-import com.sbs.untact.service.ReplyService;
-import com.sbs.untact.util.Util;
-
-import lombok.extern.slf4j.Slf4j;
+import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 @Controller
 @Slf4j
@@ -28,32 +20,30 @@ public class MpaUsrArticleController {
 
     @Autowired
     private ArticleService articleService;
+
     @Autowired
     private ReplyService replyService;
-    
+
     @RequestMapping("/mpaUsr/article/detail")
     public String showDetail(HttpServletRequest req, int id) {
         Article article = articleService.getForPrintArticleById(id);
+        List<Reply> replies = replyService.getForPrintRepliesByRelTypeCodeAndRelId("article", id);
 
         if (article == null) {
             return Util.msgAndBack(req, id + "번 게시물이 존재하지 않습니다.");
         }
-        Member member = ((Rq) req.getAttribute("rq")).getLoginedMember();
-        Board board = articleService.getBoardById(article.getBoardId());
-        List<Reply> replies = replyService.getRepliesById(id);
 
+        Board board = articleService.getBoardById(article.getBoardId());
+
+        req.setAttribute("replies", replies);
         req.setAttribute("article", article);
         req.setAttribute("board", board);
-        req.setAttribute("member", member);
-        req.setAttribute("replies", replies);
 
         return "mpaUsr/article/detail";
     }
 
     @RequestMapping("/mpaUsr/article/write")
     public String showWrite(HttpServletRequest req, @RequestParam(defaultValue = "1") int boardId) {
-    	
-        Member member = ((Rq) req.getAttribute("rq")).getLoginedMember();
         Board board = articleService.getBoardById(boardId);
 
         if (board == null) {
@@ -61,13 +51,12 @@ public class MpaUsrArticleController {
         }
 
         req.setAttribute("board", board);
-        req.setAttribute("member", member);
-        
+
         return "mpaUsr/article/write";
     }
 
     @RequestMapping("/mpaUsr/article/doWrite")
-    public String doWrite(HttpServletRequest req, int boardId, int memberId, String title, String body) {
+    public String doWrite(HttpServletRequest req, int boardId, String title, String body) {
         if (Util.isEmpty(title)) {
             return Util.msgAndBack(req, "제목을 입력해주세요.");
         }
@@ -76,7 +65,9 @@ public class MpaUsrArticleController {
             return Util.msgAndBack(req, "내용을 입력해주세요.");
         }
 
-//        int memberId = 3; // 임시
+        Rq rq = (Rq)req.getAttribute("rq");
+
+        int memberId = rq.getLoginedMemberId();
 
         ResultData writeArticleRd = articleService.writeArticle(boardId, memberId, title, body);
 
@@ -87,42 +78,7 @@ public class MpaUsrArticleController {
         String replaceUri = "detail?id=" + writeArticleRd.getBody().get("id");
         return Util.msgAndReplace(req, writeArticleRd.getMsg(), replaceUri);
     }
-    
-    @RequestMapping("/mpaUsr/article/doReply")
-    public String doReply(HttpServletRequest req, int articleId, int memberId, String body) {
 
-        if (Util.isEmpty(body)) {
-            return Util.msgAndBack(req, "댓글 내용을 입력해주세요.");
-        }
-
-        ResultData replyRd = replyService.doReply(articleId, memberId, body);
-
-        if (replyRd.isFail()) {
-            return Util.msgAndBack(req, replyRd.getMsg());
-        }
-
-        String replaceUri = "detail?id=" + articleId;
-        return Util.msgAndReplace(req, replyRd.getMsg(), replaceUri);
-    }
-    
-    @RequestMapping("/mpaUsr/article/doDeleteReply")
-
-    public String doDeleteReply(HttpServletRequest req, Integer replyId) {
-        if (Util.isEmpty(replyId)) {
-            return Util.msgAndBack(req, "댓글 id를 입력해주세요.");
-        }
-
-        ResultData rd = replyService.doDeleteReply(replyId);
-
-        if (rd.isFail()) {
-            return Util.msgAndBack(req, rd.getMsg());
-        }
-
-        String redirectUri = "detail?Id=" + rd.getBody().get("articleId");
-
-        return Util.msgAndReplace(req, rd.getMsg(), redirectUri);
-    } 
-    
     @RequestMapping("/mpaUsr/article/doModify")
     @ResponseBody
     public ResultData doModify(Integer id, String title, String body) {
@@ -149,6 +105,7 @@ public class MpaUsrArticleController {
     }
 
     @RequestMapping("/mpaUsr/article/doDelete")
+
     public String doDelete(HttpServletRequest req, Integer id) {
         if (Util.isEmpty(id)) {
             return Util.msgAndBack(req, "id를 입력해주세요.");

@@ -3,19 +3,16 @@ package com.sbs.untact.interceptor;
 import com.sbs.untact.dto.Member;
 import com.sbs.untact.dto.Rq;
 import com.sbs.untact.service.MemberService;
-import com.sbs.untact.interceptor.BeforeActionInterceptor;
 import com.sbs.untact.util.Util;
-
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
-import java.util.Map;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.util.Map;
 
 @Component
 @Slf4j
@@ -43,11 +40,11 @@ public class BeforeActionInterceptor implements HandlerInterceptor {
             loginedMember = Util.fromJsonStr(loginedMemberJsonStr, Member.class);
         }
 
-        String currentUrl = req.getRequestURI();
+        String currentUri = req.getRequestURI();
         String queryString = req.getQueryString();
 
         if (queryString != null && queryString.length() > 0) {
-            currentUrl += "?" + queryString;
+            currentUri += "?" + queryString;
         }
 
         boolean needToChangePassword = false;
@@ -62,7 +59,7 @@ public class BeforeActionInterceptor implements HandlerInterceptor {
             needToChangePassword = (boolean) session.getAttribute("needToChangePassword");
         }
 
-        req.setAttribute("rq", new Rq(loginedMember, currentUrl, paramMap, needToChangePassword));
+        req.setAttribute("rq", new Rq(loginedMember, currentUri, paramMap, needToChangePassword));
 
         return HandlerInterceptor.super.preHandle(req, resp, handler);
     }

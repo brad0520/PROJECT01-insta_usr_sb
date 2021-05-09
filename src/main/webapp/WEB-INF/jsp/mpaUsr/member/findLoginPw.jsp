@@ -96,7 +96,7 @@ function MemberFindLoginPw__submitForm(form) {
                     <span>아이디 찾기</span>
                 </a>
 
-                <a href="/" class="btn btn-link btn-sm mb-1">
+                <a href="#" class="btn btn-link btn-sm mb-1">
                     <span><i class="fas fa-home"></i></span>
                     &nbsp;
                     <span>홈</span>

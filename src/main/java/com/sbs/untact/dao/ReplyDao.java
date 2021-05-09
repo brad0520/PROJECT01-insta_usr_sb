@@ -1,20 +1,25 @@
 package com.sbs.untact.dao;
 
-import java.util.List;
-
+import com.sbs.untact.dto.Reply;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
-import com.sbs.untact.dto.Reply;
+import java.util.List;
 
 @Mapper
 public interface ReplyDao {
+    void write(@Param("relTypeCode") String relTypeCode,
+               @Param("relId") int relId,
+               @Param("memberId") int memberId,
+               @Param("body") String body);
 
-	void doReply(@Param("articleId") int articleId, @Param("memberId") int memberId, @Param("body") String body);
+    int getLastInsertId();
 
-	List<Reply> getRepliesById(int id);
+    List<Reply> getForPrintRepliesByRelTypeCodeAndRelId(
+            @Param("relTypeCode") String relTypeCode,
+            @Param("relId") int relId);
 
-	Reply getReplyById(int id);
+    Reply getReplyById(@Param("id") int id);
 
-	void deleteReplyById(int replyId);
+    void delete(@Param("id") int id);
 }
