@@ -172,6 +172,7 @@ html > body .plain-link:hover {
 .item-bt-1-not-last-child > *:not(:last-child) {
   border-bottom:1px solid #afafaf;
 }
+
 /* 유틸 - 끝 */
 
 /* 기타 - 시작 */
@@ -288,10 +289,3 @@ box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #
   position:fixed;
 }
 /* 탑바 끝 */
-
-/* 리플라이 시작 */
-.reply-list > form > a {
-	align-items: center;
-}
-
-/* 리플라이 끝 */

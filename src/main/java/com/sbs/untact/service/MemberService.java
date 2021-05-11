@@ -5,6 +5,7 @@ import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+
 import com.sbs.untact.dao.MemberDao;
 import com.sbs.untact.dto.Member;
 import com.sbs.untact.dto.ResultData;
@@ -121,3 +122,4 @@ public class MemberService {
         return attrService.getValue("member", actorId, "extra", "needToChangePassword").equals("0") == false;
     }
 }
+

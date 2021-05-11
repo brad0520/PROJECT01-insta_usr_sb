@@ -17,6 +17,4 @@ public interface MemberDao {
     int getLastInsertId();
 
     Member getMemberByNameAndEmail(@Param("name") String name, @Param("email") String email);
-
-	Member getMemberByName(@Param("name") String name);
 }

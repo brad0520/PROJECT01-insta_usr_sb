@@ -179,26 +179,17 @@ public class MpaUsrMemberController {
     public String doJoin(HttpServletRequest req, String loginId, String loginPw, String name, String
             nickname, String cellphoneNo, String email) {
         Member oldMember = memberService.getMemberByLoginId(loginId);
-        
+
         if (oldMember != null) {
             return Util.msgAndBack(req, loginId + "(은)는 이미 사용중인 로그인아이디 입니다.");
         }
-        
-        // 수정 필요        
-        Member oldMember1 = memberService.getMemberByNameAndEmail(name, email);
-        
-        if (oldMember1 !=null) {
-        	if (oldMember1.getEmail().equals(email)) {
-        		return Util.msgAndBack(req, email + "(은)는 이미 사용중인 이메일주소입니다.");
-        	}
-        }
-        
+
         ResultData joinRd = memberService.join(loginId, loginPw, name, nickname, cellphoneNo, email);
 
         if (joinRd.isFail()) {
             return Util.msgAndBack(req, joinRd.getMsg());
         }
-        
+
         return Util.msgAndReplace(req, joinRd.getMsg(), "/");
     }
 

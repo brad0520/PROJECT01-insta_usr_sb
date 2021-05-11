@@ -3,11 +3,12 @@ package com.sbs.untact.dto;
 import java.util.Map;
 
 import com.sbs.untact.util.Util;
-import com.sbs.untact.dto.Member;
 
 import lombok.Getter;
 
 public class Rq {
+    @Getter
+    private boolean isAjax;
     private String currentUrl;
     @Getter
     private String currentUri;
@@ -16,12 +17,17 @@ public class Rq {
     @Getter
     private boolean needToChangePassword;
 
-    public Rq(Member loginedMember, String currentUri, Map<String, String> paramMap, boolean needToChangePassword) {
+    public Rq(boolean isAjax, Member loginedMember, String currentUri, Map<String, String> paramMap, boolean needToChangePassword) {
+        this.isAjax = isAjax;
         this.loginedMember = loginedMember;
         this.currentUrl = currentUri.split("\\?")[0];
         this.currentUri = currentUri;
         this.paramMap = paramMap;
         this.needToChangePassword = needToChangePassword;
+    }
+
+    public String getParamJsonStr() {
+        return Util.toJsonStr(paramMap);
     }
 
     public boolean isLogined() {
