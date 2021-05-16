@@ -1,18 +1,16 @@
 package com.sbs.untact.service;
 
 
-import java.io.UnsupportedEncodingException;
-
-import javax.mail.MessagingException;
-import javax.mail.internet.MimeMessage;
-
+import com.sbs.untact.dto.ResultData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
-import com.sbs.untact.dto.ResultData;
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
+import java.io.UnsupportedEncodingException;
 
 
 @Service
@@ -78,4 +76,3 @@ public class MailService {
         return new ResultData("S-1", "메일이 발송되었습니다.");
     }
 }
-

@@ -1,12 +1,5 @@
 package com.sbs.untact.controller;
 
-import javax.servlet.http.HttpServletRequest;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-
 import com.sbs.untact.dto.Article;
 import com.sbs.untact.dto.Reply;
 import com.sbs.untact.dto.ResultData;
@@ -14,9 +7,13 @@ import com.sbs.untact.dto.Rq;
 import com.sbs.untact.service.ArticleService;
 import com.sbs.untact.service.ReplyService;
 import com.sbs.untact.util.Util;
-import com.sbs.untact.controller.MpaUsrReplyController;
-
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import javax.servlet.http.HttpServletRequest;
 
 @Controller
 @Slf4j

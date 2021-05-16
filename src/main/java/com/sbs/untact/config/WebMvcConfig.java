@@ -4,8 +4,10 @@ import com.sbs.untact.interceptor.BeforeActionInterceptor;
 import com.sbs.untact.interceptor.NeedToLoginInterceptor;
 import com.sbs.untact.interceptor.NeedToLogoutInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
@@ -19,6 +21,9 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
     @Autowired
     NeedToLogoutInterceptor needToLogoutInterceptor;
+
+    @Value("${custom.genFileDirPath}")
+    private String genFileDirPath;
 
     // 이 함수는 인터셉터를 적용하는 역할을 합니다.
     @Override
@@ -58,6 +63,12 @@ public class WebMvcConfig implements WebMvcConfigurer {
                 .addPathPatterns("/mpaUsr/member/doFindLoginId")
                 .addPathPatterns("/mpaUsr/member/findLoginPw")
                 .addPathPatterns("/mpaUsr/member/doFindLoginPw");
+    }
+
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        registry.addResourceHandler("/gen/**").addResourceLocations("file:///" + genFileDirPath + "/")
+                .setCachePeriod(20);
     }
 }
 

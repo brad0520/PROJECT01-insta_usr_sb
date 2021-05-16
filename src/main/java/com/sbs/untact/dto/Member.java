@@ -2,7 +2,6 @@ package com.sbs.untact.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.sbs.untact.util.Util;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -30,5 +29,21 @@ public class Member {
 
     public String toJsonStr() {
         return Util.toJsonStr(this);
+    }
+
+    public String getProfileImgUri() {
+        return "/common/genFile/file/member/" + id + "/extra/profileImg/1";
+    }
+
+    public String getProfileFallbackImgUri() {
+        return "https://via.placeholder.com/300?text=^_^";
+    }
+
+    public String getProfileFallbackImgOnErrorHtmlAttr() {
+        return "this.src = '" + getProfileFallbackImgUri() + "'";
+    }
+
+    public String getRemoveProfileImgIfNotExistsOnErrorHtmlAttr() {
+        return "$(this).remove();";
     }
 }

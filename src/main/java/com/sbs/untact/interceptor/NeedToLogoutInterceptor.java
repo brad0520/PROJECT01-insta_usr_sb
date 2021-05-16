@@ -2,8 +2,6 @@ package com.sbs.untact.interceptor;
 
 import com.sbs.untact.dto.Rq;
 import com.sbs.untact.util.Util;
-import com.sbs.untact.interceptor.NeedToLogoutInterceptor;
-
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;

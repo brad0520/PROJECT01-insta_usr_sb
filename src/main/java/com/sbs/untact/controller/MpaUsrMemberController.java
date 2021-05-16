@@ -1,26 +1,29 @@
 package com.sbs.untact.controller;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-
+import com.sbs.untact.dto.Member;
+import com.sbs.untact.dto.ResultData;
+import com.sbs.untact.dto.Rq;
+import com.sbs.untact.service.GenFileService;
+import com.sbs.untact.service.MemberService;
+import com.sbs.untact.util.Util;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartRequest;
 
-import com.sbs.untact.dto.Member;
-import com.sbs.untact.dto.ResultData;
-import com.sbs.untact.service.MemberService;
-import com.sbs.untact.util.Util;
-import com.sbs.untact.dto.Rq;
-import com.sbs.untact.controller.MpaUsrMemberController;
-
-import lombok.extern.slf4j.Slf4j;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+import java.util.Map;
 
 @Controller
 @Slf4j
 public class MpaUsrMemberController {
     @Autowired
     private MemberService memberService;
+    @Autowired
+    private GenFileService genFileService;
 
     // checkPasswordAuthCode : 체크비밀번호인증코드
     @RequestMapping("/mpaUsr/member/modify")
@@ -39,7 +42,7 @@ public class MpaUsrMemberController {
 
     @RequestMapping("/mpaUsr/member/doModify")
     public String doModify(HttpServletRequest req, String loginPw, String name, String
-            nickname, String cellphoneNo, String email, String checkPasswordAuthCode) {
+            nickname, String cellphoneNo, String email, String checkPasswordAuthCode, MultipartRequest multipartRequest) {
 
         Member loginedMember = ((Rq) req.getAttribute("rq")).getLoginedMember();
         ResultData checkValidCheckPasswordAuthCodeResultData = memberService
@@ -58,6 +61,16 @@ public class MpaUsrMemberController {
 
         if (modifyRd.isFail()) {
             return Util.msgAndBack(req, modifyRd.getMsg());
+        }
+
+        Map<String, MultipartFile> fileMap = multipartRequest.getFileMap();
+
+        for (String fileInputName : fileMap.keySet()) {
+            MultipartFile multipartFile = fileMap.get(fileInputName);
+
+            if ( multipartFile.isEmpty() == false ) {
+                genFileService.save(multipartFile, loginedMember.getId());
+            }
         }
 
         return Util.msgAndReplace(req, modifyRd.getMsg(), "/");
@@ -177,7 +190,8 @@ public class MpaUsrMemberController {
 
     @RequestMapping("/mpaUsr/member/doJoin")
     public String doJoin(HttpServletRequest req, String loginId, String loginPw, String name, String
-            nickname, String cellphoneNo, String email) {
+            nickname, String cellphoneNo, String email, MultipartRequest multipartRequest) {
+
         Member oldMember = memberService.getMemberByLoginId(loginId);
 
         if (oldMember != null) {
@@ -188,6 +202,18 @@ public class MpaUsrMemberController {
 
         if (joinRd.isFail()) {
             return Util.msgAndBack(req, joinRd.getMsg());
+        }
+
+        int newMemberId = (int)joinRd.getBody().get("id");
+
+        Map<String, MultipartFile> fileMap = multipartRequest.getFileMap();
+
+        for (String fileInputName : fileMap.keySet()) {
+            MultipartFile multipartFile = fileMap.get(fileInputName);
+
+            if ( multipartFile.isEmpty() == false ) {
+                genFileService.save(multipartFile, newMemberId);
+            }
         }
 
         return Util.msgAndReplace(req, joinRd.getMsg(), "/");

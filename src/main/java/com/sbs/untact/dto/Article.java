@@ -1,10 +1,10 @@
 package com.sbs.untact.dto;
 
-import java.util.Map;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.Map;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -36,5 +36,17 @@ public class Article {
         bodyForPrint = bodyForPrint.replaceAll("\n", "<br>");
 
         return bodyForPrint;
+    }
+
+    public String getWriterProfileImgUri() {
+        return "/common/genFile/file/member/" + memberId + "/extra/profileImg/1";
+    }
+
+    public String getWriterProfileFallbackImgUri() {
+        return "https://via.placeholder.com/300?text=^_^";
+    }
+
+    public String getWriterProfileFallbackImgOnErrorHtmlAttr() {
+        return "this.src = '" + getWriterProfileFallbackImgUri() + "'";
     }
 }

@@ -1,10 +1,9 @@
 package com.sbs.untact.dto;
 
-import java.util.Map;
-
 import com.sbs.untact.util.Util;
-
 import lombok.Getter;
+
+import java.util.Map;
 
 public class Rq {
     @Getter
@@ -72,5 +71,3 @@ public class Rq {
         return currentUrl.equals("/mpaUsr/member/login");
     }
 }
-
-

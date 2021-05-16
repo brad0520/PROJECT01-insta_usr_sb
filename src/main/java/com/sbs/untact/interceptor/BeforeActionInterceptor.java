@@ -4,8 +4,6 @@ import com.sbs.untact.dto.Member;
 import com.sbs.untact.dto.Rq;
 import com.sbs.untact.service.MemberService;
 import com.sbs.untact.util.Util;
-import com.sbs.untact.interceptor.BeforeActionInterceptor;
-
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
