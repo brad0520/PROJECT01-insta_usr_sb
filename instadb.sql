@@ -133,7 +133,7 @@ loginId = 'user1',
 loginPw = 'user1',
 `name` = '유저1이름',
 nickname = '유저1별명',
-email = 'jangka512@gmail.com',
+email = 'brad0520@hanmail.net',
 cellphoneNo = '01012341234';
 
 # 회원 테스트 데이터 생성
@@ -145,7 +145,7 @@ loginId = 'user2',
 loginPw = 'user2',
 `name` = '유저2이름',
 nickname = '유저2별명',
-email = 'jangka512@gmail.com',
+email = 'brad0520@hanmail.net',
 cellphoneNo = '01012341234';
 
 # 회원 테스트 데이터 생성
@@ -157,7 +157,7 @@ loginId = 'user3',
 loginPw = 'user3',
 `name` = '유저3이름',
 nickname = '유저3별명',
-email = 'jangka512@gmail.com',
+email = 'brad0520@hanmail.net',
 cellphoneNo = '01012341234';
 
 # 로그인비번 칼럼의 길이를 100으로 늘림
