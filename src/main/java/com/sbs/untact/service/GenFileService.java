@@ -1,25 +1,20 @@
 package com.sbs.untact.service;
 
 
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-
+import com.google.common.base.Joiner;
+import com.sbs.untact.dao.GenFileDao;
+import com.sbs.untact.dto.GenFile;
+import com.sbs.untact.dto.ResultData;
+import com.sbs.untact.util.Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartRequest;
 
-import com.google.common.base.Joiner;
-import com.sbs.untact.dao.GenFileDao;
-import com.sbs.untact.dto.GenFile;
-import com.sbs.untact.dto.ResultData;
-import com.sbs.untact.util.Util;
+import java.io.File;
+import java.io.IOException;
+import java.util.*;
 
 @Service
 public class GenFileService {
@@ -195,6 +190,12 @@ public class GenFileService {
         for (GenFile genFile : genFiles) {
             deleteGenFile(genFile);
         }
+    }
+
+    public void deleteGenFile(String relTypeCode, int relId, String typeCode, String type2Code, int fileNo) {
+        GenFile genFile = genFileDao.getGenFile(relTypeCode, relId, typeCode, type2Code, fileNo);
+
+        deleteGenFile(genFile);
     }
 
     private void deleteGenFile(GenFile genFile) {

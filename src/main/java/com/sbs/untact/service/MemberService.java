@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -36,6 +37,35 @@ public class MemberService {
 
     public int getNeedToChangePasswordFreeDays() {
         return needToChangePasswordFreeDays;
+    }
+
+    public static String getAuthLevelName(Member member) {
+        switch (member.getAuthLevel()) {
+            case 7:
+                return "관리자";
+            case 3:
+                return "일반";
+            default:
+                return "유형정보없음";
+        }
+    }
+
+    public static String getAuthLevelNameColor(Member member) {
+        switch (member.getAuthLevel()) {
+            case 7:
+                return "red";
+            case 3:
+                return "gray";
+            default:
+                return "";
+        }
+    }
+
+    public boolean isAdmin(Member actor) {
+        if ( actor == null ) {
+            return false;
+        }
+        return actor.getAuthLevel() == 7;
     }
 
     public ResultData join(String loginId, String loginPw, String name, String nickname, String cellphoneNo, String email) {
@@ -119,5 +149,9 @@ public class MemberService {
 
     public boolean needToChangePassword(int actorId) {
         return attrService.getValue("member", actorId, "extra", "needToChangePassword").equals("0") == false;
+    }
+
+    public List<Member> getForPrintMembers() {
+        return memberDao.getForPrintMembers();
     }
 }
